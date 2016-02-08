@@ -4,7 +4,7 @@
 
     <!-- Project properties -->
     <property name="name" value="drools-was-web-app-1.0-SNAPSHOT" />
-    <property name="appDir" value="/" />
+    <property name="appDir" value="/home/parallels/Projects/jee-container-examples/drools-was-web-app/target" />
     <property name="build.dir" location="build" />
 
     <!-- was properties -->
