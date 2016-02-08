@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+<project name="wasdeploy" basedir=".">
+
+    <!-- Project properties -->
+    <property name="name" value="myapplication" />
+    <property name="build.dir" location="build" />
+
+    <!-- was properties -->
+    <property name="hostName" value="localhost" />
+    <property name="connType" value="SOAP" />
+    <property name="connPort" value="8880" />
+    <property name="userId" value="wasadmin" />
+    <property name="password" value="wasadmin" />
+    <property name="wasHome.dir" value="/home/parallels/IBM/WebSphere/AppServer" />
+    <property name="node" value="node01" />
+    <property name="server" value="server01" />
+
+    <!-- Was Ant task definitions -->
+    <taskdef name="wsStartApplication" classname="com.ibm.websphere.ant.tasks.StartApplication" />
+    <taskdef name="wsStopApplication" classname="com.ibm.websphere.ant.tasks.StopApplication" />
+    <taskdef name="wsStartServer" classname="com.ibm.websphere.ant.tasks.StartServer" />
+    <taskdef name="wsStopServer" classname="com.ibm.websphere.ant.tasks.StopServer" />
+    <taskdef name="wsInstallApp" classname="com.ibm.websphere.ant.tasks.InstallApplication" />
+    <taskdef name="wsUninstallApp" classname="com.ibm.websphere.ant.tasks.UninstallApplication" />
+    <taskdef name="wsListApps" classname="com.ibm.websphere.ant.tasks.ListApplications" />
+
+    <!--
+    other helpful properties
+    wasHome="${wasHome.dir}"
+    conntype="${connType}"
+    port="${port}"
+    host="${hostName}" ip address or remote was
+    user="${userId}"
+    password="${password}"
+    -->
+
+    <target name="listApps">
+ <wsListApps />
+    </target>
+
+    <target name="deploy" description="Deploy the ear">
+        <wsInstallApp ear="${build.dir}/${name}.ear" options="-appname ${name}" failonerror="true"/>
+    </target>
+
+    <target name="undeploy">
+        <wsUninstallApp application="${name}" failonerror="true" />
+    </target>
+
+    <target name="startApplication">
+        <wsStartApplication application="${name}" wasHome="${wasHome.dir}" server="${server}" node="${node}"/>
+    </target>
+
+    <target name="stopApplication">
+        <wsStopApplication application="${name}" wasHome="${wasHome.dir}" server="${server}" node="${node}"/>
+    </target>
+
+    <target name="update" >
+        <wsInstallApp ear="${build.dir}/${name}-qa.ear" options="-appname ${name} -update" failonerror="true"/> 
+    </target>
+   
+    <target name="startServer">
+        <wsStartServer server="${server}"
+                       logFile="${build.dir}/start.log"
+                       trace="false"
+                       failonerror="false" />
+    </target>
+
+    <target name="stopServer">
+        <wsStopServer server="${server}"
+                      logFile="${build.dir}/stop.log"
+                      trace="false"
+                      failonerror="false" />
+    </target>
+
+</project>
