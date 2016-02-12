@@ -145,6 +145,38 @@ public class WASContainerManager implements ContainerManager {
             Logger.getLogger(WASContainerManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    public void startApp(String appName) {
+        Hashtable options = new Hashtable();
+        options.put(AppConstants.APPDEPL_LOCALE, Locale.getDefault());
+        try {
+            proxy.startApplication(appName, options, null);
+        } catch (AdminException ex) {
+            Logger.getLogger(WASContainerManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void stopApp(String appName) {
+        Hashtable options = new Hashtable();
+        options.put(AppConstants.APPDEPL_LOCALE, Locale.getDefault());
+        try {
+            proxy.stopApplication(appName, options, null);
+        } catch (AdminException ex) {
+            Logger.getLogger(WASContainerManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void restartApp(String appName) {
+        Hashtable options = new Hashtable();
+        options.put(AppConstants.APPDEPL_LOCALE, Locale.getDefault());
+        try {
+            proxy.stopApplication(appName, options, null);
+            proxy.startApplication(appName, options, null);
+        } catch (AdminException ex) {
+            Logger.getLogger(WASContainerManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /*
      * Deploys an application to a WAS instance 

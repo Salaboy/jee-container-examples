@@ -29,13 +29,20 @@ public interface MainApp {
             
             System.out.println(">> Deploying App: ");
             container.deployApp(earPath, appName, target);
-            Thread.sleep(100000);
+            Thread.sleep(10000);
             System.out.println(">> Listing Apps: ");
             container.listApps();
+            System.out.println(">> Starting App: " + appName);
+            container.startApp(appName);
+            Thread.sleep(10000);
+            
+            System.out.println(">> Stoping App: " + appName);
+            container.stopApp(appName);
+            Thread.sleep(10000);
             
             System.out.println(">> UnDeploying App: ");
             container.undeployApp(appName);
-            Thread.sleep(100000);
+            Thread.sleep(10000);
             System.out.println(">> Listing Apps: ");
             container.listApps();
         }
