@@ -54,6 +54,7 @@ public class WASContainerManager implements ContainerManager {
             listeners = new ArrayList<AppManagerNotificationListener>();
         }
         listeners.add(listener);
+        initListeners();
     }
 
     public boolean connect() {
@@ -65,7 +66,9 @@ public class WASContainerManager implements ContainerManager {
         try {
             soapClient = AdminClientFactory.createAdminClient(config);
             proxy = AppManagementProxy.getJMXProxyForClient(soapClient);
-            initListeners();
+            if (listeners != null) {
+                initListeners();
+            }
             return true;
         } catch (ConnectorException ex) {
             Logger.getLogger(WASContainerManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,8 +148,7 @@ public class WASContainerManager implements ContainerManager {
             Logger.getLogger(WASContainerManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
     public void startApp(String appName) {
         Hashtable options = new Hashtable();
         options.put(AppConstants.APPDEPL_LOCALE, Locale.getDefault());
@@ -156,7 +158,7 @@ public class WASContainerManager implements ContainerManager {
             Logger.getLogger(WASContainerManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void stopApp(String appName) {
         Hashtable options = new Hashtable();
         options.put(AppConstants.APPDEPL_LOCALE, Locale.getDefault());
@@ -166,7 +168,7 @@ public class WASContainerManager implements ContainerManager {
             Logger.getLogger(WASContainerManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void restartApp(String appName) {
         Hashtable options = new Hashtable();
         options.put(AppConstants.APPDEPL_LOCALE, Locale.getDefault());
